@@ -1,0 +1,8 @@
+(env
+  (dev
+    (flags (:standard -w -32))))
+
+(library
+ (name stringOf)
+ (public_name stringOf)
+ (libraries ))
