@@ -152,7 +152,8 @@ let string_of_hashtbl (string_of_key: 'a -> string) (string_of_val: 'b -> string
     @param tbl           The [Hashtbl.t] to convert to a [string]
     @return The given [('a, 'b) Hashtbl.t] as a [string] in expanded form
 *)
-let string_of_hashtbl_exp (string_of_key: 'a -> string) (string_of_val: 'b -> string) (tbl: ('a, 'b) Hashtbl.t): string =
+let string_of_hashtbl_exp (string_of_key: 'a -> string) (string_of_val: 'b -> string) (tbl: ('a, 'b) Hashtbl.t):
+string =
     string_of_foldable_map_ds_exp string_of_key string_of_val Hashtbl.fold tbl
 
 (**
