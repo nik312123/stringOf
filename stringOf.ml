@@ -56,6 +56,14 @@ let string_of_foldable (string_of_el: 'a -> string) (fold: ('a, 'b) fold_string_
         (string_of_el el)::cur_lst
     in fold fold_string_fn ds [] |> String.concat "; "
 
+(**
+    [string_of_foldable_exp] converts a data structure that has a fold function in the form
+    [('a -> 'c -> 'c) -> 'b -> 'c -> 'c] to a [string] in ecomposed of element [string]s, concatenated with ";\n"
+    @param string_of_el The function used to turn each element of the data structure to a [string]
+    @param fold         The fold function in the aforementioned format to use with the given data structure
+    @param ds           The data structure to convert to a [string]
+    @return The [string] form of [ds]
+*)
 let string_of_foldable_exp (string_of_el: 'a -> string) (fold: ('a, 'b) fold_string_t) (ds: 'b): string =
     let fold_string_fn (el: 'a) (cur_lst: string list): string list =
         ("    " ^ string_of_el el)::cur_lst
