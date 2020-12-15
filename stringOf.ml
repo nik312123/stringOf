@@ -2,8 +2,8 @@
     The [StringOf] module is used to convert various data structures to [string]s that do not have a string_of function
     associated with it
     
-    Credit to Shawn (https://stackoverflow.com/a/65052754/14135254) for advice on generalization with fold for the
-    [Hashtbl.t] and [Map.S.t] structures
+    {{:https://stackoverflow.com/a/65052754/14135254} Credit to Shawn} for advice on generalization with fold for the
+    {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} and {{:https://tinyurl.com/ocaml-map-s} Map.S.t} structures
 *)
 
 (**
@@ -37,10 +37,10 @@ let string_of_triple (string_of_fst: 'a -> string) (string_of_snd: 'b -> string)
 ((fst, snd, trd): 'a * 'b * 'c): string =
     Printf.sprintf "(%s, %s, %s)" (string_of_fst fst) (string_of_snd snd) (string_of_trd trd)
 
-(** The type corresponding to the function passed to the fold function for [string_of_foldable] *)
+(** The type corresponding to the function passed to the fold function for {!string_of_foldable} *)
 type 'a fold_string_fn_t = 'a -> string list -> string list
 
-(** The type corresponding to the fold function for [string_of_foldable] *)
+(** The type corresponding to the fold function for {!string_of_foldable} *)
 type ('a, 'b) fold_string_t = 'a fold_string_fn_t -> 'b -> string list -> string list
 
 (**
@@ -105,15 +105,22 @@ let string_of_array (string_of_el: 'a -> string) (arr: 'a array): string =
 let string_of_array (string_of_el: 'a -> string) (arr: 'a array): string =
     string_of_foldable_exp string_of_el Array.fold_right arr |> Printf.sprintf "[|\n%s\n|]"
 
-(** The type corresponding to the function function passed to the fold function for [Hashtbl.t] and [Map.S.t] *)
+(**
+    The type corresponding to the function passed to the fold function for
+    {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} and {{:https://tinyurl.com/ocaml-map-s} Map.S.t} for
+    {!string_of_foldable_map_ds}
+*)
 type ('a, 'b, 'd) map_fold_fn_t = 'a -> 'b -> 'd -> 'd
 
-(** The type corresponding to the fold function for [Hashtbl.t] and [Map.S.t] *)
+(**
+    The type corresponding to the fold function for {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} and
+    {{:https://tinyurl.com/ocaml-map-s} Map.S.t} for {!string_of_foldable_map_ds}
+*)
 type ('a, 'b, 'c, 'd) map_fold_t = ('a, 'b, 'd) map_fold_fn_t -> 'c -> 'd -> 'd
 
 (**
-    [string_of_foldable_map_ds] returns the given map-like data structure (such as [Hashtbl.t] and [Map.S.t]) as a
-    [string]
+    [string_of_foldable_map_ds] returns the given map-like data structure (such as
+    {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} and {{:https://tinyurl.com/ocaml-map-s} Map.S.t}) as a [string]
     @param string_of_key The function used to turn each key of the data structure to a [string]
     @param string_of_val The function used to turn each value of the data structure to a [string]
     @param map_fold      The function that can be used to fold [ds]
@@ -128,8 +135,9 @@ let string_of_foldable_map_ds (string_of_key: 'a -> string) (string_of_val: 'b -
         string_of_list (string_of_pair string_of_key string_of_val)
 
 (**
-    [string_of_foldable_map_ds_exp] returns the given map-like data structure (such as [Hashtbl.t] and [Map.S.t]) as a
-    [string] in expanded form
+    [string_of_foldable_map_ds_exp] returns the given map-like data structure (such as
+    {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} and {{:https://tinyurl.com/ocaml-map-s} Map.S.t}) as a [string] in
+    expanded form
     @param string_of_key The function used to turn each key of the data structure to a [string]
     @param string_of_val The function used to turn each value of the data structure to a [string]
     @param map_fold      The function that can be used to fold [ds]
@@ -144,29 +152,35 @@ let string_of_foldable_map_ds_exp (string_of_key: 'a -> string) (string_of_val: 
         string_of_list_exp (string_of_pair string_of_key string_of_val)
 
 (**
-    [string_of_hashtbl] returns given [('a, 'b) Hashtbl.t] as a [string] in expanded form
-    @param string_of_key The function used to turn each key of the [Hashtbl.t] to a [string]
-    @param string_of_val The function used to turn each value of the [Hashtbl.t] to a [string]
-    @param tbl           The [Hashtbl.t] to convert to a [string]
-    @return The given [('a, 'b) Hashtbl.t] as a [string] in expanded form
+    [string_of_hashtbl] returns given {!('a, 'b) Hashtbl.t} as a [string] in expanded form
+    @param string_of_key The function used to turn each key of the {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} to a
+                         [string]
+    @param string_of_val The function used to turn each value of the {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} to
+                         a [string]
+    @param tbl           The {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} to convert to a [string]
+    @return The given {!('a, 'b) Hashtbl.t} as a [string] in expanded form
 *)
 let string_of_hashtbl (string_of_key: 'a -> string) (string_of_val: 'b -> string) (tbl: ('a, 'b) Hashtbl.t): string =
     string_of_foldable_map_ds string_of_key string_of_val Hashtbl.fold tbl
 
 (**
-    [string_of_hashtbl_exp] returns given [('a, 'b) Hashtbl.t] as a [string] in expanded form
-    @param string_of_key The function used to turn each key of the [Hashtbl.t] to a [string]
-    @param string_of_val The function used to turn each value of the [Hashtbl.t] to a [string]
-    @param tbl           The [Hashtbl.t] to convert to a [string]
-    @return The given [('a, 'b) Hashtbl.t] as a [string] in expanded form
+    [string_of_hashtbl_exp] returns given {!('a, 'b) Hashtbl.t} as a [string] in expanded form
+    @param string_of_key The function used to turn each key of the {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} to a
+                         [string]
+    @param string_of_val The function used to turn each value of the {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} to
+                         a [string]
+    @param tbl           The {{:https://tinyurl.com/ocaml-hashtbl} Hashtbl.t} to convert to a [string]
+    @return The given {!('a, 'b) Hashtbl.t} as a [string] in expanded form
 *)
 let string_of_hashtbl_exp (string_of_key: 'a -> string) (string_of_val: 'b -> string) (tbl: ('a, 'b) Hashtbl.t):
 string =
     string_of_foldable_map_ds_exp string_of_key string_of_val Hashtbl.fold tbl
 
 (**
-    The [StringOfSet] is a submodule functor that, given a module [S] that is implemented using [Set.Make], will create
-    a module capable of converting instances of [S] to string form 
+    The [StringOfSet] is a submodule functor that, given a module [S] that is implemented using
+    {{:https://tinyurl.com/ocaml-set-make} Set.Make}, will create a module capable of converting instances of [S] to
+    [string] form
+    @param S Test
 *)
 module StringOfSet (S: Set.S) = struct
     (** The type of [S]'s set elements *)
@@ -195,8 +209,9 @@ module StringOfSet (S: Set.S) = struct
 end
 
 (**
-    The [StringOfSet] is a submodule functor that, given a module [M] that is implemented using [Map.Make], will create
-    a module capable of converting instances of [M] to string form 
+    The [StringOfSet] is a submodule functor that, given a module [M] that is implemented using
+    {{:https://tinyurl.com/ocaml-map-make} Map.Make}, will create a module capable of converting instances of [M] to
+    [string] form
 *)
 module StringOfMap (M: Map.S) = struct
     (** The type of [M]'s keys *)
