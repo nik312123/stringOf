@@ -117,7 +117,7 @@ type ('a, 'b, 'c, 'd) map_fold_t = ('a, 'b, 'd) map_fold_fn_t -> 'c -> 'd -> 'd
     @param string_of_key The function used to turn each key of the data structure to a [string]
     @param string_of_val The function used to turn each value of the data structure to a [string]
     @param map_fold      The function that can be used to fold [ds]
-    @param ds            Theh map-like data structure to convert to a [string]
+    @param ds            The map-like data structure to convert to a [string]
     @return The [string] form of [ds]
 *)
 let string_of_foldable_map_ds (string_of_key: 'a -> string) (string_of_val: 'b -> string)
@@ -133,7 +133,7 @@ let string_of_foldable_map_ds (string_of_key: 'a -> string) (string_of_val: 'b -
     @param string_of_key The function used to turn each key of the data structure to a [string]
     @param string_of_val The function used to turn each value of the data structure to a [string]
     @param map_fold      The function that can be used to fold [ds]
-    @param ds            Theh map-like data structure to convert to a [string]
+    @param ds            The map-like data structure to convert to a [string]
     @return The [string] form of [ds] in expanded form
 *)
 let string_of_foldable_map_ds_exp (string_of_key: 'a -> string) (string_of_val: 'b -> string)
