@@ -15,8 +15,8 @@ let string_of_char (c: char) = String.make 1 c
 
 (**
     [string_of_pair] returns the given pair as a [string]
-    @param string_of_fst The function to convert the first pair element to a [string]
-    @param string_of_snd The function to convert the second pair element to a [string]
+    @param string_of_fst The function to convert the first element of the pair to a [string]
+    @param string_of_snd The function to convert the second element of the pair to a [string]
     @param fst           The first element of the pair
     @param snd           The second element of the pair
     @return The [string] form of the given pair
@@ -25,9 +25,10 @@ let string_of_pair (string_of_fst: 'a -> string) (string_of_snd: 'b -> string) (
     Printf.sprintf "(%s, %s)" (string_of_fst fst) (string_of_snd snd)
 
 (**
-    [string_of_triple] returns the given ['a * 'b * 'c] triple as a string
-    @param string_of_fst The function to convert the first pair element to a [string]
-    @param string_of_snd The function to convert the second pair element to a [string]
+    [string_of_triple] returns the given [* 'b * 'c] triple as a string
+    @param string_of_fst The function to convert the first element of the triple to a [string]
+    @param string_of_snd The function to convert the second element of the triple to a [string]
+    @param string_of_trd The function to convert the third element of the triple to a [string]
     @param fst           The first element of the triple
     @param snd           The second element of the triple
     @param trd           The third element of the triple
@@ -70,39 +71,39 @@ let string_of_foldable_exp (string_of_el: 'a -> string) (fold: ('a, 'b) fold_str
     in fold fold_string_fn ds [] |> String.concat ";\n"
 
 (**
-    [string_of_list] returns the given ['a list] as a [string]
+    [string_of_list] returns the given [list] as a [string]
     @param string_of_el The function used to turn each element of the [list] to a [string]
     @param lst          The [list] to convert to a [string]
-    @return The given ['a list] as a string
+    @return The given [list] as a string
 *)
 let string_of_list (string_of_el: 'a -> string) (lst: 'a list): string =
     string_of_foldable string_of_el List.fold_right lst |> Printf.sprintf "[%s]"
 
 (**
-    [string_of_list_exp] returns the given ['a list] as a [string] in expanded form
+    [string_of_list_exp] returns the given [list] as a [string] in expanded form
     @param string_of_el The function used to turn each element of the [list] to a [string]
     @param lst          The [list] to convert to a [string]
-    @return The given ['a list] as a string in expanded form
+    @return The given [list] as a string in expanded form
 *)
 let string_of_list_exp (string_of_el: 'a -> string) (lst: 'a list): string =
     string_of_foldable_exp string_of_el List.fold_right lst |> Printf.sprintf "[\n%s\n]"
 
 (**
-    [string_of_array] returns given ['a array] as a [string]
+    [string_of_array] returns given [array] as a [string]
     @param string_of_el The function used to turn each element of the [array] to a [string]
     @param arr          The [array] to convert to a [string]
-    @return The given ['a array] as a [string]
+    @return The given [array] as a [string]
 *)
 let string_of_array (string_of_el: 'a -> string) (arr: 'a array): string =
     string_of_foldable string_of_el Array.fold_right arr |> Printf.sprintf "[|%s|]"
 
 (**
-    [string_of_array_exp] returns given ['a array] as a [string] in expanded form
+    [string_of_array_exp] returns given [array] as a [string] in expanded form
     @param string_of_el The function used to turn each element of the [array] to a [string]
     @param arr          The [array] to convert to a [string]
-    @return The given ['a array] as a [string] in expanded form
+    @return The given [array] as a [string] in expanded form
 *)
-let string_of_array (string_of_el: 'a -> string) (arr: 'a array): string =
+let string_of_array_exp (string_of_el: 'a -> string) (arr: 'a array): string =
     string_of_foldable_exp string_of_el Array.fold_right arr |> Printf.sprintf "[|\n%s\n|]"
 
 (**
@@ -177,7 +178,7 @@ string =
     string_of_foldable_map_ds_exp string_of_key string_of_val Hashtbl.fold tbl
 
 (**
-    The [StringOfSet] is a submodule functor that, given a module [S] that is implemented using
+    [StringOfSet] is a submodule functor that, given a module [S] that is implemented using
     {{:https://tinyurl.com/ocaml-set-make} Set.Make}, will create a module capable of converting instances of [S] to
     [string] form
     @param S Test
@@ -193,7 +194,7 @@ module StringOfSet (S: Set.S) = struct
         [string_of_set] returns the given [S.t] as a [string]
         @param string_of_el The function used to turn each element of the [S.t] to a [string]
         @param set          The [S.t] to convert to a [string]
-        @return The given ['a list] as a string
+        @return The given [list] as a string
     *)
     let string_of_set (string_of_el: elt -> string) (set: t): string =
         string_of_foldable string_of_el S.fold set |> Printf.sprintf "[%s]"
@@ -202,14 +203,14 @@ module StringOfSet (S: Set.S) = struct
         [string_of_set_exp] returns the given [S.t] as a [string] in expanded form
         @param string_of_el The function used to turn each element of the [S.t] to a [string]
         @param set          The [S.t] to convert to a [string]
-        @return The given ['a list] as a string in expanded form
+        @return The given [list] as a string in expanded form
     *)
     let string_of_set_exp (string_of_el: elt -> string) (set: t): string =
         string_of_foldable_exp string_of_el S.fold set |> Printf.sprintf "[\n%s\n]"
 end
 
 (**
-    The [StringOfSet] is a submodule functor that, given a module [M] that is implemented using
+    [StringOfMap] is a submodule functor that, given a module [M] that is implemented using
     {{:https://tinyurl.com/ocaml-map-make} Map.Make}, will create a module capable of converting instances of [M] to
     [string] form
 *)
@@ -221,20 +222,20 @@ module StringOfMap (M: Map.S) = struct
     type 'a t = 'a M.t
     
     (**
-        [string_of_map] returns given [M.t] as a [string]
+        [string_of_map] returns the given [M.t] as a [string]
         @param string_of_key The function used to turn each key of the [M.t] to a [string]
         @param string_of_val The function used to turn each value of the [M.t] to a [string]
-        @param tbl           The [M.t] to convert to a [string]
+        @param tbl           The map to convert to a [string]
         @return The given [M.t] as a [string]
     *)
     let string_of_map (string_of_key: key -> string) (string_of_val: 'a -> string) (map: 'a t) =
         string_of_foldable_map_ds string_of_key string_of_val M.fold map
     
     (**
-        [string_of_map_exp] returns given [M.t] as a [string] in expanded form
+        [string_of_map_exp] returns the given [M.t] as a [string] in expanded form
         @param string_of_key The function used to turn each key of the [M.t] to a [string]
         @param string_of_val The function used to turn each value of the [M.t] to a [string]
-        @param tbl           The [M.t] to convert to a [string]
+        @param tbl           The map to convert to a [string]
         @return The given [M.t] as a [string] in expanded form
     *)
     let string_of_map_exp (string_of_key: key -> string) (string_of_val: 'a -> string) (map: 'a t) =
